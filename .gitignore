@@ -1,0 +1,15 @@
+node_modules/
+**/node_modules/
+
+.obsidian/
+
+**/dist/
+**/*.tsbuildinfo
+
+000-Administration/
+po/
+
+.DS_Store
+*.swp
+.env
+.env.local
