@@ -34,7 +34,7 @@ server.tool(
 
 server.tool(
   'search_notes',
-  'Search vault notes by keyword or phrase. Returns up to `limit` results ranked by relevance score (higher = more relevant). Each result contains the full note (path, title, body, tags, frontmatter) and its score.',
+  'Search vault notes by keyword or phrase. Returns up to `limit` results ranked by relevance score (higher = more relevant). Each result contains path, title, score, tags, and a short excerpt. Use get_note to retrieve the full body of any result.',
   {
     query: z.string().min(1).describe('Keywords or phrase to search for across all vault notes'),
     limit: z.number().int().positive().optional().describe('Maximum results to return (default 10)'),
@@ -42,6 +42,28 @@ server.tool(
   async ({ query, limit }) => {
     try {
       const results = await reader.search(query, limit)
+      return {
+        content: [{ type: 'text' as const, text: JSON.stringify(results, null, 2) }],
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err)
+      return {
+        content: [{ type: 'text' as const, text: `Error: ${message}` }],
+        isError: true,
+      }
+    }
+  }
+)
+
+server.tool(
+  'get_backlinks',
+  'Find all vault notes that contain a [[wikilink]] pointing to the given note. Returns a list of { path, title } objects. Use get_note to retrieve the full content of any result. Returns an error if the target path does not exist in the vault.',
+  {
+    path: z.string().min(1).describe('Vault-relative path of the target note, e.g. "PKMS/CLAUDE.md"'),
+  },
+  async ({ path }) => {
+    try {
+      const results = await reader.getBacklinks(path)
       return {
         content: [{ type: 'text' as const, text: JSON.stringify(results, null, 2) }],
       }

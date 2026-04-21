@@ -81,7 +81,9 @@ All sprint bundles (spec + QA + UAT) in `000-Administration/020-Sprints/sprint-N
 | Sprint | Goal | Status |
 |--------|------|--------|
 | Sprint 1 | I3: `getNote` + MCP scaffold | ✅ Done — 2026-04-13 |
+| Sprint 2 | I3: `search` | ✅ Done — 2026-04-13 |
+| Sprint 3 | I3: search truncation + `getBacklinks` | ✅ Done — 2026-04-21 |
 
 ## Current Sprint
 
-**Sprint 2 — I3: `search`**
+_(none — awaiting Sprint 4 planning)_

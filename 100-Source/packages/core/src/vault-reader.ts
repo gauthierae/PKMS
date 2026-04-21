@@ -11,8 +11,16 @@ export interface NoteResult {
 }
 
 export interface SearchResult {
-  note: NoteResult
+  path: string                          // vault-relative path — pass to get_note for full content
+  title: string
   score: number                         // relevance score — higher is more relevant
+  tags: string[]
+  excerpt: string                       // first ≤ 300 chars of body, trimmed to word boundary
+}
+
+export interface BacklinkResult {
+  path: string                          // vault-relative path of the referencing note
+  title: string                         // derived title of the referencing note
 }
 
 export interface VaultReader {
@@ -22,8 +30,9 @@ export interface VaultReader {
   /** Full-text search across all notes. Returns top matches ranked by score. */
   search(query: string, limit?: number): Promise<SearchResult[]>
 
-  /** Get all notes that link to the given vault-relative path. */
-  getBacklinks(path: string): Promise<NoteResult[]>
+  /** Get all notes that link to the given vault-relative path.
+   *  Throws if the path does not exist in the vault. Returns [] if no notes link to it. */
+  getBacklinks(path: string): Promise<BacklinkResult[]>
 
   /** Filter notes by a YAML frontmatter property key and value. */
   queryByProperty(key: string, value: unknown): Promise<NoteResult[]>

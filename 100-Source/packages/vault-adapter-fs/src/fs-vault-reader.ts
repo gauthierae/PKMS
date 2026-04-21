@@ -2,7 +2,8 @@ import { homedir } from 'node:os'
 import MiniSearch from 'minisearch'
 import { scanVault } from './vault-scanner.js'
 import type { ParsedNote } from './types.js'
-import type { VaultReader, NoteResult, SearchResult } from '@pkms/core/src/vault-reader.js'
+import { buildBacklinkIndex } from './backlink-index.js'
+import type { VaultReader, NoteResult, SearchResult, BacklinkResult } from '@pkms/core/src/vault-reader.js'
 
 class NotImplementedError extends Error {
   constructor(method: string, sprint: number) {
@@ -21,6 +22,7 @@ interface SearchDoc {
 interface VaultCache {
   notes: ParsedNote[]
   index: MiniSearch<SearchDoc>
+  backlinks: Map<string, string[]>   // target vaultPath → [source vaultPaths]
 }
 
 function stemOf(vaultPath: string): string {
@@ -40,6 +42,15 @@ function toNoteResult(note: ParsedNote): NoteResult {
     tags: note.tags,
     frontmatter: note.frontmatter,
   }
+}
+
+// SR1+SR2: use /\s\S*$/ to trim at any whitespace boundary (not just spaces); maxLen=299
+// so the result with the appended '…' is always ≤ 300 chars including the degenerate case.
+function excerptOf(body: string, maxLen = 299): string {
+  if (body.length <= maxLen) return body
+  const cut = body.slice(0, maxLen)
+  const lastWS = cut.search(/\s\S*$/)
+  return (lastWS > 0 ? cut.slice(0, lastWS).trimEnd() : cut) + '…'
 }
 
 function buildIndex(notes: ParsedNote[]): MiniSearch<SearchDoc> {
@@ -90,7 +101,8 @@ export class FsVaultReader implements VaultReader {
     this.loadPromise = scanVault(this.root)
       .then(({ notes }) => {
         const index = buildIndex(notes)
-        const cache: VaultCache = { notes, index }
+        const backlinks = buildBacklinkIndex(notes)
+        const cache: VaultCache = { notes, index, backlinks }
         this.cache = cache
         this.cacheTimestamp = Date.now()
         this.loadPromise = null
@@ -117,12 +129,25 @@ export class FsVaultReader implements VaultReader {
     return hits.map((hit) => {
       // CR1: String() cast makes the string assumption on hit.id explicit and future-safe.
       const note = notes.find((n) => n.vaultPath === String(hit.id))!
-      return { note: toNoteResult(note), score: hit.score }
+      return {
+        path: note.vaultPath,
+        title: titleOf(note),
+        score: hit.score,
+        tags: note.tags,
+        excerpt: excerptOf(note.body),
+      }
     })
   }
 
-  async getBacklinks(_path: string): Promise<NoteResult[]> {
-    throw new NotImplementedError('getBacklinks', 3)
+  async getBacklinks(path: string): Promise<BacklinkResult[]> {
+    const { notes, backlinks } = await this.load()
+    const target = notes.find((n) => n.vaultPath === path)
+    if (!target) throw new Error(`Note not found: ${path}`)
+    const sourcePaths = backlinks.get(path) ?? []
+    return sourcePaths
+      .map((sp) => notes.find((n) => n.vaultPath === sp))
+      .filter((n): n is ParsedNote => n !== undefined)
+      .map((n) => ({ path: n.vaultPath, title: titleOf(n) }))
   }
 
   async queryByProperty(_key: string, _value: unknown): Promise<NoteResult[]> {
