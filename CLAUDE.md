@@ -1,3 +1,7 @@
+---
+project: true
+---
+
 # PKMS Middleware — Local-First LLM Context Orchestrator
 
 ## What This Project Is
@@ -42,41 +46,27 @@ PKM framework documented in `pkms-essai-personnel-v3.md` (French).
 
 ---
 
+## Root-level file exemptions
+
+The following files at project root are monorepo tooling config and must stay there. They are not GO810 orphans:
+
+`package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`, `turbo.json`, `tsconfig.base.json`, `eslint.config.js`, `node_modules/`
+
+---
+
 ## Sprint Governance
 
-Three Claude Code agents collaborate:
-- **Architect** (`/architect`) — system design, technical specs, Decision Log entries
-- **Developer** (`/developer`) — implements per spec, minimum scope, no gold-plating
-- **Quality Analyst** (`/quality-analyst`) — spec review (Phase 2) and code review (Phase 4)
+Follows the shared dev cycle: `~/000-Administration/010-Claude/dev-cycle.md`.
 
-The **Product Owner** (human) drives priorities, validates outcomes, and signs off sprints.
-
-**Sprint cycle — 5 phases + UAT:**
-
-| Phase | Role | Output | Location in sprint file |
-|-------|------|--------|------------------------|
-| 1 | Architect | Sprint spec | `## Sprint Spec` |
-| 2 | QA | Spec review | `## Spec Review` |
-| 3 | Developer | Implementation | `## Implementation Notes` |
-| 4 | QA | Code review | `## Code Review` |
-| 5 | Developer | Fixes | `## Fixes Applied` |
-| UAT | PO | End-to-end validation | `## UAT Results` |
-| Sign-off | PO | Approval | `## PO Validation` |
-
-**Acceptance thresholds:**
-- `[BLOCKER]` — stop; PO resolves before continuing
-- `[MAJOR]` — resolved in Phase 5, or explicitly deferred by PO
-- `[MINOR]` — developer discretion in Phase 5 or a future sprint
-
-**Git commit convention:** `Sprint N — <short description>` — one commit per sprint, after UAT sign-off.
-
-**Files each agent reads on entry:** `CLAUDE.md`, `000-Administration/decisions.md`, previous sprint file (`000-Administration/020-Sprints/sprint-N-1.md` if it exists), and all source files relevant to deliverables.
+**Project-specific paths:**
+- Sprint files: `000-Administration/020-Sprints/sprint-N.md`
+- Decision log: `200-po/decisions.md`
 
 ---
 
 ## Sprint History
 
-All sprint bundles (spec + QA + UAT) in `000-Administration/020-Sprints/sprint-N.md`. See `000-Administration/decisions.md` for the full Decision Log.
+All sprint bundles (spec + QA + UAT) in `000-Administration/020-Sprints/sprint-N.md`. See `200-po/decisions.md` for the full Decision Log.
 
 | Sprint | Goal | Status |
 |--------|------|--------|
@@ -87,3 +77,8 @@ All sprint bundles (spec + QA + UAT) in `000-Administration/020-Sprints/sprint-N
 ## Current Sprint
 
 _(none — awaiting Sprint 4 planning)_
+
+## Rules
+
+- If something is not clear, always ask questions.
+- When planning, never propose to delete files. Suggest an archive path inferred from context instead.

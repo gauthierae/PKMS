@@ -7,6 +7,8 @@ node_modules/
 **/*.tsbuildinfo
 
 000-Administration/
+200-po/
+900-Archives/
 po/
 
 .DS_Store
