@@ -1,28 +1,60 @@
-# PKMS
+# PKMS Modules
 
-PKMS is a local-first middleware that bridges your Markdown vault and any LLM via MCP. If you spend 5–10 minutes navigating your vault before every LLM session — copy-pasting relevant notes into the context window — this eliminates that: it exposes vault structure (notes, backlinks, full-text search) directly to the AI, so the LLM can navigate your knowledge graph without manual intervention. It runs entirely on your machine; no data leaves, no cloud dependency. Works with any MCP-compatible client and any LLM, including local models via Ollama or LM Studio. AGPL v3. See [Install](#install) to get started.
+Small command-line tools for Markdown vaults. Each tool installs on its own and runs on your machine.
 
-## Install
+---
 
-**Requirements:** Node.js ≥ 18, pnpm
+## Status
 
-```bash
-git clone https://github.com/gauthierae/PKMS
-cd pkms && pnpm install && pnpm build
-```
+**Nothing is released here yet.** This repo holds no working module today. The first one arrives soon.
 
-Add to your MCP client config (e.g. Claude Desktop `claude_desktop_config.json`):
+This repo held **PKMS v1**, a TypeScript MCP server. That project stopped on 2026-05-30. I took the
+code off this branch. It stays in the git history if you want to look.
 
-```json
-{
-  "mcpServers": {
-    "pkms": {
-      "command": "node",
-      "args": ["100-Source/apps/standalone/dist/mcp-server.js"],
-      "env": { "VAULT_PATH": "/absolute/path/to/your/vault" }
-    }
-  }
-}
-```
+The previous README promised an MCP server with three tools: `get_note`, `search_notes`, and
+`get_backlinks`. **That promise is void.** I removed the claim rather than leave it to mislead you.
 
-Exposes three tools to the LLM: `get_note`, `search_notes`, `get_backlinks`.
+---
+
+## What comes here
+
+Modules with the `pkms-` prefix. Each module:
+
+- does one job
+- works on a plain Markdown vault
+- installs on its own — no other module required
+- runs on your machine and sends nothing anywhere
+
+### First module — `pkms-lint`
+
+A link checker for a Markdown vault. It finds:
+
+- broken wikilinks — `[[Target]]` with no matching file
+- ambiguous wikilinks — two or more files match the same name
+- a near name for a broken target, so you can see the likely typo
+- broken reference-style links — stale paths and absent definitions
+
+It reports by default. It repairs only what you ask it to repair.
+
+---
+
+## What this is not
+
+**PKMS itself is not public.** PKMS is a local-first tool between a Markdown vault and an LLM. It stays
+private for now. This repo holds the modules only.
+
+If you want the modules, you do not need PKMS. That is the point of this repo.
+
+---
+
+## License
+
+Modules: **MIT**. See [LICENSE](LICENSE).
+
+---
+
+## Author
+
+Alain Gauthier — https://github.com/gauthierae
+
+I build local tools for people who want to use an LLM with their notes and keep their data private.
