@@ -6,7 +6,8 @@ Small command-line tools for Markdown vaults. Each tool installs on its own and 
 
 ## Status
 
-**Nothing is released here yet.** This repo holds no working module today. The first one arrives soon.
+**One module is released: `pkms-lint` 0.3.0.** Install it with `pipx install pkms-lint`. The source
+lives at [`packages/pkms-lint/`](packages/pkms-lint/).
 
 This repo held **PKMS v1**, a TypeScript MCP server. That project stopped on 2026-05-30. I took the
 code off this branch. It stays in the git history if you want to look.
@@ -34,7 +35,15 @@ A link checker for a Markdown vault. It finds:
 - a near name for a broken target, so you can see the likely typo
 - broken reference-style links — stale paths and absent definitions
 
-It reports by default. It repairs only what you ask it to repair.
+It reports by default. It repairs only what you ask it to repair, and it never repairs a wikilink.
+
+```sh
+pipx install pkms-lint
+pkms-lint ~/my-vault
+```
+
+It needs no index file, no plugin, and no configuration. Full documentation:
+[`packages/pkms-lint/README.md`](packages/pkms-lint/README.md).
 
 ---
 
