@@ -6,8 +6,9 @@ Small command-line tools for Markdown vaults. Each tool installs on its own and 
 
 ## Status
 
-**One module is released: `pkms-lint` 0.3.0.** Install it with `pipx install pkms-lint`. The source
-lives at [`packages/pkms-lint/`](packages/pkms-lint/).
+**One module is released: [`pkms-lint`](https://pypi.org/project/pkms-lint/).** Install it with
+`pipx install pkms-lint`, or `uv tool install pkms-lint`. The source lives at
+[`packages/pkms-lint/`](packages/pkms-lint/); PyPI shows the current version.
 
 This repo held **PKMS v1**, a TypeScript MCP server. That project stopped on 2026-05-30. I took the
 code off this branch. It stays in the git history if you want to look.

@@ -228,7 +228,7 @@ def scan_wikilinks(file: Path, vault: Path, rel_paths: list[str]) -> tuple[list[
         embed = match.group(1) == "!"
         inner = match.group(2)
         # An alias is display text only; a fragment is a heading or a block id.
-        # Neither is validated in 0.3.0.
+        # Neither is validated in 0.3.x.
         target = inner.split("|", 1)[0].split("#", 1)[0].strip()
         if not target:
             continue
