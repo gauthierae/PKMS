@@ -8,7 +8,7 @@ version = "0.3.1"
 description = "Find broken links in a Markdown vault. Wikilinks and reference-style ID links."
 readme = "README.md"
 license = { file = "LICENSE" }
-authors = [{ name = "Alain Gauthier" }]
+authors = [{ name = "gauthierae" }]
 requires-python = ">=3.11"
 dependencies = ["typer>=0.12"]
 keywords = ["markdown", "wikilink", "obsidian", "vault", "linter", "pkm"]

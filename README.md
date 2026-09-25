@@ -65,6 +65,6 @@ Modules: **MIT**. See [LICENSE](LICENSE).
 
 ## Author
 
-Alain Gauthier — https://github.com/gauthierae
+gauthierae — https://github.com/gauthierae
 
 I build local tools for people who want to use an LLM with their notes and keep their data private.
