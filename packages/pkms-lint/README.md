@@ -32,7 +32,7 @@ pkms-lint ~/my-vault --fix --dry-run # show the repairs, write nothing
 Example output:
 
 ```
-pkms-lint 0.3.1 — 5 files — index: built by scan (no .pkms-index.json)
+pkms-lint 0.3.2 — 5 files — index: built by scan (no .pkms-index.json)
 
 notes/index.md
   2  BROKEN_WIKILINK      Ghost note  did you mean: notes/Ghost notes.md
@@ -109,7 +109,7 @@ Exit 1 on findings makes the tool usable in a pre-commit hook or a CI job.
 ```json
 {
   "tool": "pkms-lint",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "schema": 1,
   "vault": "/home/you/my-vault",
   "manifest_source": "scan",

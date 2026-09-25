@@ -289,7 +289,7 @@ def _atomic_write(file: Path, text: str) -> None:
         raise
 
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 app = typer.Typer(help="Find broken links in a Markdown vault.")
 

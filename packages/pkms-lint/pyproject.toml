@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pkms-lint"
-version = "0.3.1"
+version = "0.3.2"
 description = "Find broken links in a Markdown vault. Wikilinks and reference-style ID links."
 readme = "README.md"
 license = { file = "LICENSE" }
